@@ -13,6 +13,7 @@ import com.andremott.cursomc.domain.Cidade;
 import com.andremott.cursomc.domain.Cliente;
 import com.andremott.cursomc.domain.Endereco;
 import com.andremott.cursomc.domain.Estado;
+import com.andremott.cursomc.domain.ItemPedido;
 import com.andremott.cursomc.domain.Pagamento;
 import com.andremott.cursomc.domain.PagamentoComBoleto;
 import com.andremott.cursomc.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.andremott.cursomc.repositories.CidadeRepository;
 import com.andremott.cursomc.repositories.ClienteRepository;
 import com.andremott.cursomc.repositories.EnderecoRepository;
 import com.andremott.cursomc.repositories.EstadoRepository;
+import com.andremott.cursomc.repositories.ItemPedidoRepository;
 import com.andremott.cursomc.repositories.PagamentoRepository;
 import com.andremott.cursomc.repositories.PedidoRepository;
 import com.andremott.cursomc.repositories.ProdutoRepository;
@@ -49,7 +51,8 @@ public class CursoandApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
-	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursoandApplication.class, args);
@@ -115,6 +118,19 @@ public class CursoandApplication implements CommandLineRunner {
 		 
 		 pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		 pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		 
+		 ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		 ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		 ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		 
+		 ped1.getItens().addAll(Arrays.asList(ip1,ip2));
+		 ped2.getItens().addAll(Arrays.asList(ip3));
+		 
+		 p1.getItens().addAll(Arrays.asList(ip1));
+		 p1.getItens().addAll(Arrays.asList(ip1));
+		 p1.getItens().addAll(Arrays.asList(ip1));
+		 
+		 itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 		 
 	}
 
